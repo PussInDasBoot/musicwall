@@ -1,0 +1,20 @@
+<h1><%= @song.title %></h1>
+
+<p>
+  Author: <%= @song.author %>
+</p>
+
+<p>
+  Posted at: <%= @song.created_at %>
+</p>
+
+<hr/>
+<a href="/songs">Back to all songs</a>
+
+<h2>Other songs from this author</h2>
+<p>
+<ul>
+<% Song.where.not(id: @song.id).where(author: @song.author).each do |result| %>
+  <li> <%= result.title %> </li>
+  <% end %>
+</p>
