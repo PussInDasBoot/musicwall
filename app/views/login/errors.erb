@@ -1,20 +1,5 @@
-<header>
-  <nav>
-    <ul class="nav nav-tabs nav-justified">
-      <li><a href="/">Home</a></li>
-      <li><a href="/songs">Songs</a></li>
-      <% if cookies[:email] %>
-        <li><a>Currently logged in as <%=cookies[:email] %></a></li>
-        <li><a href="/logout">Logout</a></li>
-      <% else %>
-        <li><a href="/login">Login or Signup</a></li>
-      <% end %>
-    </ul>
-  </nav>
-</header>
-
 <body>
-  <% if @user2 %>
+  <% if @user && @user.password != params[:password] %>
     <div class="alert alert-danger">
     <strong>"Wrong password, please try again"</strong>
     </div>

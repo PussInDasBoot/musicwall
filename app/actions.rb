@@ -4,13 +4,22 @@ require 'sinatra'
 
 enable :sessions
 
+helpers do
+  def current_user
+    @current_user ||= User.find_by(id: session[:id])
+  end
+
+  def logged_in?
+    current_user != nil
+  end
+end
+
 get '/' do
   erb :index
 end
 
 get '/songs' do
   @songs = Song.all
-  @current_user = User.find(cookies[:id]) if cookies[:id]
   erb :'songs/index'
 end
 
@@ -24,7 +33,7 @@ post '/add_song' do
     title: params[:title],
     author: params[:author],
     url: params[:url],
-    user_id: cookies[:id]
+    user_id: session[:id]
     )
   if @song.save
     redirect '/songs'
@@ -40,9 +49,8 @@ end
 
 post '/signup' do
   @user = User.new(
-    email: params[:email],
-    password: params[:password]
-    )
+    email: params[:email])
+  @user.password = params[:password]
   if @user.save
     redirect '/songs'
     # TODO login afterwards
@@ -52,19 +60,19 @@ post '/signup' do
 end
 
 get '/login' do
-  @user = User.new
+  @user_placeholder = User.new
   erb :'login/index'
 end
 
 post '/login' do
   @user = User.find_by(
-    email: params[:email],
-    password: params[:password])
-  @user2 = User.find_by(
     email: params[:email])
-  if @user
-    cookies[:email] = @user.email
-    cookies[:id] = @user.id
+    # password: params[:password])
+  # @user2 = User.find_by(
+  #   email: params[:email])
+  if @user && @user.password == params[:password]
+    session[:email] = @user.email
+    session[:id] = @user.id
     redirect '/songs'
   else
     erb :'login/errors'
@@ -72,13 +80,14 @@ post '/login' do
 end
 
 get '/logout' do
-  cookies.delete :email
-  cookies.delete :id
+  session.delete(:email)
+  session.delete(:id)
   redirect '/'
 end
 
+#Should this be post?
 get '/upvote' do
   @voted_song = Song.find params[:song]
-  @voted_song.votes.create(user_id: cookies[:id])
+  @voted_song.votes.create(user_id: session[:id])
   redirect '/songs'
 end
