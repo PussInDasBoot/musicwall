@@ -26,7 +26,7 @@
       <th>Votes</th>
       <th>Upvote</th>
     </tr>
-    <% @songs.each do |song| %>
+    <% @songs.sort { |a,b| b.votes.count <=> a.votes.count }.each do |song| %>
       <tr>
         <td><a href="songs/<%= song.id %>"><%= song.title %></a></td>
         <td> <%= song.author%></td>
