@@ -33,7 +33,7 @@ post '/add_song' do
     title: params[:title],
     author: params[:author],
     url: params[:url],
-    user_id: session[:id]
+    user_id: current_user.id
     )
   if @song.save
     redirect '/songs'
@@ -89,5 +89,11 @@ end
 get '/upvote' do
   @voted_song = Song.find params[:song]
   @voted_song.votes.create(user_id: session[:id])
+  redirect '/songs'
+end
+
+post '/add_review' do
+  @reviewed_song = Song.find params[:song]
+  @reviewed_song.reviews.create(content: params[:content], user_id: current_user.id)
   redirect '/songs'
 end

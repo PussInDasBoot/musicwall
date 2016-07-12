@@ -1,9 +1,10 @@
 require 'bcrypt'
-# require 'pry'
 
 class User < ActiveRecord::Base
   has_many :songs
   has_many :votes
+  has_many :reviews
+  
   validates :email, presence: true, uniqueness: true
   validates :password_hash, presence: true
 
@@ -11,8 +12,6 @@ class User < ActiveRecord::Base
 
 
   def password
-
-    # binding.pry
     @password ||= Password.new(password_hash)
   end
 

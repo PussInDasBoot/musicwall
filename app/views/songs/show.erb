@@ -8,10 +8,34 @@
   Posted at: <%= @song.created_at %>
 </p>
 
-<hr/>
+<% if @song.user %><p>
+  Posted by: <%= @song.user.email %>
+</p><% end %>
+
+
+<h3>Post a review</h3>
+<form method="post" action="/add_review?song=<%= @song.id%>">
+  <div class="form-group">
+    <textarea class="form-control" id="review" name="content" rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <input type="submit" class="btn btn-primary" value="Submit">
+  </div>
+</form>
+
+
 <a href="/songs">Back to all songs</a>
 
-<h2>Other songs from this author</h2>
+<h3>All reviews</h3>
+<p>
+<ul>
+<% @song.reviews.each do |review| %>
+  <li> <%= review.content %> </li>
+  <% end %>
+</ul>
+</p>
+
+<h3>Other songs from this author</h3>
 <p>
 <ul>
 <% Song.where.not(id: @song.id).where(author: @song.author).each do |result| %>
