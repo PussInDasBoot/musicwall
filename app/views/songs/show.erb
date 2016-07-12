@@ -12,7 +12,7 @@
   Posted by: <%= @song.user.email %>
 </p><% end %>
 
-<% if current_user %>
+<% if logged_in? && Review.where(user_id: current_user.id).where(song_id: @song.id).empty?%>
   <h3>Post a review</h3>
   <form method="post" action="/add_review?song=<%= @song.id%>">
     <div class="form-group">
@@ -22,6 +22,8 @@
       <input type="submit" class="btn btn-primary" value="Submit">
     </div>
   </form>
+<% elsif logged_in?%>
+You've already posted a review for this song!
 <% else %>
   Please <a href="/login">login</a> if you'd like to review a song.
 <% end %>
