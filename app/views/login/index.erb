@@ -1,0 +1,65 @@
+<header>
+  <nav>
+    <ul class="nav nav-tabs nav-justified">
+      <li><a href="/">Home</a></li>
+      <li><a href="/songs">Songs</a></li>
+      <% if cookies[:email] %>
+        <li><a>Currently logged in as <%=cookies[:email] %></a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% else %>
+        <li><a href="/login">Login or Signup</a></li>
+      <% end %>
+    </ul>
+  </nav>
+</header>
+
+<body>
+  <% if @user.nil?
+    puts "No user found, please signup"
+    elsif @user.errors.any? %>
+    <div class="alert alert-danger">
+      <strong>Please fix these issues with your user:</strong>
+      <ul>
+        <% @user.errors.full_messages.each do |user| %>
+          <li><%= user %></li>
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+
+  <div class="container">
+  <h2>Signup</h2>
+  <form method="post" action="/signup">
+      <div>
+        <label>Email:
+        <input type="email" name="email" value="<%= @user.email %>">
+        </label>
+      </div>
+      <div>
+        <label>Password:
+        <input type="password" name="password" value="<%= @user.password %>">
+        </label>
+      </div>
+        <input type="submit" class="btn btn-primary" value="Signup">
+      </div>
+    </form>
+  </div>
+  <div class="container">
+  <h2>Login</h2>
+    <form method="post" action="/login">
+      <div>
+       <div>
+        <label>Email:
+        <input type="email" name="email" value="<%= @user.email %>">
+        </label>
+      </div>
+      <div>
+        <label>Password:
+        <input type="password" name="password" value="<%= @user.password %>">
+        </label>
+      </div>
+        <input type="submit" class="btn btn-primary" value="Login">
+      </div>
+    </form>
+  </div>
+</body>

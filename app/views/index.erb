@@ -1,8 +1,25 @@
-<h1>Songs-R-Us</h1>
+<header>
+  <nav>
+    <ul class="nav nav-tabs nav-justified">
+      <li><a href="/">Home</a></li>
+      <li><a href="/songs">Songs</a></li>
+      <% if cookies[:email] %>
+        <li><a>Currently logged in as <%=cookies[:email] %></a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% else %>
+        <li><a href="/login">Login or Signup</a></li>
+      <% end %>
+    </ul>
+  </nav>
+</header>
 
-<p class="well">Welcome to Songs-R-Us! <a href="/songs">Here</a> is a list of all the songs that have been posted.</p>
+<body>
+  <h1>Songs-R-Us</h1>
 
-<p class="well">Want to post a new song?
+  <p class="well">Welcome to Songs-R-Us! <a href="/songs">Here</a> is a list of all the songs that have been posted.</p>
 
-<a href="/songs/new">Click here!</a></p>
+  <p class="well">Want to post a new song?
 
+  <a href="/songs/new">Click here!</a></p>
+
+</body>

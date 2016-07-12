@@ -1,0 +1,38 @@
+<header>
+  <nav>
+    <ul class="nav nav-tabs nav-justified">
+      <li><a href="/">Home</a></li>
+      <li><a href="/songs">Songs</a></li>
+      <% if cookies[:email] %>
+        <li><a>Currently logged in as <%=cookies[:email] %></a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% else %>
+        <li><a href="/login">Login or Signup</a></li>
+      <% end %>
+    </ul>
+  </nav>
+</header>
+
+<body>
+  <% if @user2 %>
+    <div class="alert alert-danger">
+    <strong>"Wrong password, please try again"</strong>
+    </div>
+  <% elsif @user.nil? %>
+    <div class="alert alert-danger">
+      <strong>"No user found, please signup"</strong>
+    </div>
+  
+  <% elsif @user.errors.any? %>
+    <div class="alert alert-danger">
+      <strong>Please fix these issues with your user:</strong>
+      <ul>
+        <% @user.errors.full_messages.each do |user| %>
+          <li><%= user %></li>
+        <% end %>
+        </ul>
+      </p>
+    </div>
+  <% end %>
+  <a href="/login">Return to login or signup page</a>
+</body>

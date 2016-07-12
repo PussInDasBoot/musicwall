@@ -1,3 +1,18 @@
+<header>
+  <nav>
+    <ul class="nav nav-tabs nav-justified">
+      <li><a href="/">Home</a></li>
+      <li><a href="/songs">Songs</a></li>
+      <% if @current_user %>
+        <li><a>Currently logged in as <%=cookies[:email] %></a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% else %>
+        <li><a href="/login">Login or Signup</a></li>
+      <% end %>
+    </ul>
+  </nav>
+</header>
+
 <div class="container">
   <h1>All songs</h1>
 
@@ -8,6 +23,8 @@
       <th>Title</th>
       <th>Author</th>
       <th>URL</th>
+      <th>Votes</th>
+      <th>Upvote</th>
     </tr>
     <% @songs.each do |song| %>
       <tr>
@@ -16,7 +33,13 @@
         <td><% if song.url %> 
                 <a href="<%=song.url %>">link</a>
               <% end %>
-        </td>
+        <td><%=song.votes.count %></td>
+        <% if @current_user
+            if
+            Vote.where(user_id: @current_user.id).where(song_id: song.id).empty? %>
+            <td><a href="/upvote?song=<%= song.id%>"><button>Upvote</button></a></td>
+            <% end %>
+          <% end %>
       </tr>
     <% end %>
   </table>
