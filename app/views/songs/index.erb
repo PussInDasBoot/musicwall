@@ -21,12 +21,12 @@
                 <a href="<%=song.url %>">link</a>
               <% end %>
         <td><%=song.votes.count %></td>
-        <% if logged_in?
+        <td><% if logged_in?
           if
           Vote.where(user_id: current_user.id).where(song_id: song.id).empty? %>
           <a href="/upvote?song=<%= song.id%>"><button>Upvote</button></a>
           <% end %>
-        <% else %><td><button class="btn btn-primary disabled">Must be logged in to upvote</button></td>
+        <% else %><button class="btn btn-primary disabled">Must be logged in to upvote</button>
         <% end %></td>
       </tr>
     <% end %>

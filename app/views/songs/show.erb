@@ -34,13 +34,27 @@ You've already posted a review for this song!
 
 <h3>All reviews</h3>
 <p>
-
-<ul>
-<% @song.reviews.sort { |a,b| b.created_at <=> a.created_at }.each do |review| %>
-  <li> <%= review.content %> </li>
+<table class="table">
+  <tr>
+    <th>Review</th>
+    <th>Posted by</th>
+    <th>Posted at</th>
+    <th>Delete</th> 
+  </tr>
+    <!-- TODO: maybe make delete conditionally viewed? -->
+  <% @song.reviews.sort { |a,b| b.created_at <=> a.created_at }.each do |review| %>
+  <tr>
+    <td><%= review.content %></td>
+    <td><%= review.user.email %></td>
+    <td><%= review.created_at %></td>
+    <td><% if review.user_id == current_user.id %>
+      <a href="/delete_review?dr=<%= review.id %>"><button>Delete</button></a>
+    <% end %></td>
+  </tr>
   <% end %>
-</ul>
+</table>
 </p>
+
 
 <h3>Other songs from this author</h3>
 <p>

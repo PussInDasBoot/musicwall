@@ -97,3 +97,9 @@ post '/add_review' do
   @reviewed_song.reviews.create(content: params[:content], user_id: current_user.id)
   redirect '/songs'
 end
+
+get '/delete_review' do
+  @delete_review = Review.find params[:dr]
+  @delete_review.destroy
+  redirect '/songs'
+end
