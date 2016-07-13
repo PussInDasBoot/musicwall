@@ -59,11 +59,11 @@ You've already posted a review for this song!
 <p>
 <table class="table">
   <tr>
-    <th>Rating</th>
-    <th>Review</th>
-    <th>Posted by</th>
-    <th>Posted at</th>
-    <th>Delete</th> 
+    <th class="text-center">Rating</th>
+    <th class="text-center">Review</th>
+    <th class="text-center">Posted by</th>
+    <th class="text-center">Posted at</th>
+    <th class="text-center">Delete</th> 
   </tr>
     <!-- TODO: maybe make delete conditionally viewed? -->
   <% @song.reviews.sort { |a,b| b.created_at <=> a.created_at }.each do |review| %>
@@ -72,7 +72,7 @@ You've already posted a review for this song!
     <td><%= review.content %></td>
     <td><%= review.user.email %></td>
     <td><%= review.created_at %></td>
-    <td><% if review.user_id == current_user.id %>
+    <td><% if current_user && review.user_id == current_user.id %>
       <a href="/delete_review?dr=<%= review.id %>"><button>Delete</button></a>
     <% end %></td>
   </tr>
